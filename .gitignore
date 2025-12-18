@@ -1,15 +1,11 @@
 # C++ 
-# Ignore the compiled executable and object files
 cpp/
 *.o
 *.out
-
 # Python
-# Ignore the virtual environment folder and cache
 .venv/
 __pycache__/
 *.pyc
-
 # System/VS Code
 .DS_Store
 .vscode/
