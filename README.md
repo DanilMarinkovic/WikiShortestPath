@@ -1,0 +1,1 @@
+Simple script that finds the shortest amount of links between two wikipedia pages, within a reasonable depth. Could be improved by installing data and recreating on C++ to find shortest path much faster.
