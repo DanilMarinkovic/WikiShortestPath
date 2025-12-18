@@ -1,11 +1,12 @@
 # C++ 
-cpp/
 *.o
 *.out
 # Python
 .venv/
 __pycache__/
 *.pyc
+#data
+data/
 # System/VS Code
 .DS_Store
 .vscode/
