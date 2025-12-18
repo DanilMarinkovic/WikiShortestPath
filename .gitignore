@@ -1,12 +1,15 @@
 # C++ 
 *.o
 *.out
+wiki_shortest_path
 # Python
 .venv/
 __pycache__/
 *.pyc
 #data
 data/
+#vim
+.*.sw?
 # System/VS Code
 .DS_Store
 .vscode/
