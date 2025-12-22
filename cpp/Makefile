@@ -1,9 +1,17 @@
 CXX      = g++
-CXXFLAGS = -std=c++17 -O3 -Wall
+CXXFLAGS = -std=c++20 -O3 -Wall -Iinclude -I/usr/include/libxml2
+LDFLAGS  = -lxml2
+
+SRCS     = $(wildcard src/*.cpp)
+OBJS     = $(SRCS:.cpp=.o)
 TARGET   = wiki_shortest_path
-SRC      = src/main.cpp
-all: $(TARGET)
-$(TARGET): $(SRC)
-	$(CXX) $(CXXFLAGS) $(SRC) -o $(TARGET)
+
+$(TARGET): $(OBJS)
+	$(CXX) $(OBJS) -o $(TARGET) $(LDFLAGS)
+
+src/%.o: src/%.cpp
+	$(CXX) $(CXXFLAGS) -c $< -o $@
+
 clean:
-	rm -f $(TARGET)
+	rm -f src/*.o $(TARGET)
+
