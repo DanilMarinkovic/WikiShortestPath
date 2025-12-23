@@ -3,18 +3,18 @@
 #include <iostream>
 #include <cstring>
 
-int Parser::findPage(const std::string& target) {
+std::string Parser::findPage(const std::string& target) {
     xmlTextReaderPtr reader = xmlReaderForFile(PATH.c_str(), nullptr, 0);
     if (!reader) {
         std::cerr << "Failed to open XML file: " << PATH << "\n";
-        return false;
+        return "";
     }
 
     std::string currentTitle;
-    bool found = false;
+    std::string pageText;
+    int ret;
 
-    int ret = xmlTextReaderRead(reader);
-    while (ret == 1 && !found) {
+    while ((ret = xmlTextReaderRead(reader)) == 1) {
         int nodeType = xmlTextReaderNodeType(reader);
         const xmlChar* nodeName = xmlTextReaderConstName(reader);
 
@@ -32,24 +32,35 @@ int Parser::findPage(const std::string& target) {
             if (tag == "text" && currentTitle == target) {
                 xmlChar* content = xmlTextReaderReadString(reader);
                 if (content) {
-                    std::cout << content << std::endl;
+                    pageText = reinterpret_cast<const char*>(content);
                     xmlFree(content);
+                    break;
                 }
-                found = true;
-                break;
             }
         }
 
-        ret = xmlTextReaderRead(reader);
     }
 
     xmlFreeTextReader(reader);
 
-    if (!found) {
+    if (pageText.empty()) {
         std::cout << "Article not found: " << target << std::endl;
-        return 1;
     }
 
-    return 0;
+    return pageText;
 }
-
+    std::vector<std::string> Parser::getLinks(const std::string& text){
+        std::vector<std::string> links;
+        size_t pos = 0;
+        while((pos = text.find("[[",pos))!=std::string::npos){
+            size_t end;
+            if((end = text.find("]]",pos))==std::string::npos){
+                break;
+            }
+            std::string link = text.substr(pos + 2, end - pos - 2);
+            pos = end + 2;
+            links.push_back(link);
+        }
+    return links;
+}
+      

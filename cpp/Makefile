@@ -1,5 +1,5 @@
 CXX      = g++
-CXXFLAGS = -std=c++20 -O3 -Wall -Iinclude -I/usr/include/libxml2
+CXXFLAGS = -std=c++23 -O3 -Wall -Iinclude -I/usr/include/libxml2
 LDFLAGS  = -lxml2
 
 SRCS     = $(wildcard src/*.cpp)
