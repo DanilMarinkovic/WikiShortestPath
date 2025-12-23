@@ -2,7 +2,7 @@
 #include <libxml/xmlreader.h>
 #include <iostream>
 #include <cstring>
-
+#include <unordered_set>
 std::string Parser::findPage(const std::string& target) {
     xmlTextReaderPtr reader = xmlReaderForFile(PATH.c_str(), nullptr, 0);
     if (!reader) {
@@ -51,6 +51,8 @@ std::string Parser::findPage(const std::string& target) {
 }
     std::vector<std::string> Parser::getLinks(const std::string& text){
         std::vector<std::string> links;
+        std::unordered_set<std::string> seen;
+
         size_t pos = 0;
         while((pos = text.find("[[",pos))!=std::string::npos){
             size_t end;
@@ -58,8 +60,16 @@ std::string Parser::findPage(const std::string& target) {
                 break;
             }
             std::string link = text.substr(pos + 2, end - pos - 2);
+            size_t pipe = link.find("|");
+            if (pipe!=std::string::npos){
+                link=link.substr(0,pipe);
+            }
+            if (link.find(":")==std::string::npos){
+                if (seen.insert(link).second){
+                    links.push_back(link);
+                }
+            }
             pos = end + 2;
-            links.push_back(link);
         }
     return links;
 }
