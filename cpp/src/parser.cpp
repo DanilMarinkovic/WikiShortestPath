@@ -51,7 +51,16 @@ std::string Parser::findPage(const std::string& target) {
     return pageText;
 }
 
-std::vector<std::string> Parser::getLinks(const std::string& text){
+std::vector<std::string> Parser::getLinks(const std::string& target){
+    auto it = linkCache.find(target);
+    if(it != linkCache.end()){
+        return it -> second;
+    }
+    std::string text = findPage(target);
+    if(text.empty()){
+        return {};
+    }
+
     std::vector<std::string> links;
     std::unordered_set<std::string> seen;
 
