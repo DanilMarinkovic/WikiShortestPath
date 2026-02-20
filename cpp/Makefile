@@ -15,3 +15,4 @@ src/%.o: src/%.cpp
 clean:
 	rm -f src/*.o $(TARGET)
 
+m

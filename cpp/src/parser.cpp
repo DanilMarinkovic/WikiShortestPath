@@ -82,6 +82,7 @@ std::vector<std::string> Parser::getLinks(const std::string& target){
         }
         pos = end + 2;
     }
+    linkCache[target] = links;
     return links;
 }
 
